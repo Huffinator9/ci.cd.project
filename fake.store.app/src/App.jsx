@@ -1,55 +1,25 @@
-// src: src/App.jsx
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavigationBar from "./components/NavigationBar";
-import ProductList from "./pages/ProductList";
-import AddProduct from "./pages/AddProduct";
-import EditProduct from "./pages/EditProduct";
-import UserProfile from "./pages/UserProfile";
-import ShoppingCart from "./pages/ShoppingCart";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProductList from './pages/ProductList';
+import ProductDetail from './pages/ProductDetail';
+import AddProduct from './pages/AddProduct';
+import EditProduct from './pages/EditProduct';
+import Layout from './components/Layout';
 
 function App() {
-  return (
-    <Router>
-      <NavigationBar />
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<ProductList />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<ShoppingCart />} />
-
-        {/* Protected routes */}
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/add-product"
-          element={
-            <ProtectedRoute>
-              <AddProduct />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/edit-product/:id"
-          element={
-            <ProtectedRoute>
-              <EditProduct />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
-  );
+    return (
+	<Router>
+	    <Layout>
+		<Routes>
+		    <Route path="/" element={<Home />} />
+		    <Route path="/products" element={<ProductList />} />
+		    <Route path="/products/:id" element={<ProductDetail />} />
+		    <Route path="/products/:id/edit" element={<EditProduct />} />
+		    <Route path="/add-product" element={<AddProduct />} />
+		</Routes>
+	    </Layout>
+	</Router>
+    );
 }
 
 export default App;

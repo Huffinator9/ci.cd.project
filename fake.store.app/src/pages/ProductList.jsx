@@ -1,90 +1,54 @@
-// src: src/pages/ProductList.jsx
+// src/pages/ProductList.jsx
 
-import { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Form, Button, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { getProducts, /*getProductsByCategory*/ } from "../firebase/productsCRUD";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Container, Row, Col, Card, Spinner, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 function ProductList() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  // Fetch products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      const data = selectedCategory === "all" 
-        ? await getProducts() 
-        : await getProductsByCategory(selectedCategory);
-      setProducts(data);
-      setLoading(false);
-    };
+    useEffect(() => {
+	axios.get('https://fakestoreapi.com/products')
+	    .then((res) => {
+		setProducts(res.data);
+		setLoading(false);
+	    })
+	    .catch((err) => {
+		console.error('Error fetching products:', err);
+		setLoading(false);
+	    });
+    }, []);
 
-    fetchProducts();
-  }, [selectedCategory]);
-
-  // Extract categories dynamically from products
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const data = await getProducts();
-      const uniqueCategories = ["all", ...new Set(data.map(p => p.category))];
-      setCategories(uniqueCategories);
-    };
-
-    fetchCategories();
-  }, []);
-
-  if (loading) return <Spinner animation="border" />;
-
-  return (
-    <Container className="mt-4">
-      <h2 className="text-center mb-4">Product Listing</h2>
-
-      {/* Category Dropdown */}
-      <Form.Group className="mb-4">
-        <Form.Label>Filter by Category</Form.Label>
-        <Form.Select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </Form.Select>
-      </Form.Group>
-
-      {/* Products */}
-      <Row>
-        {products.map(product => (
-          <Col key={product.id} md={4} className="mb-4">
-            <Card>
-              <Card.Img
-                variant="top"
-                src={product.image}
-                style={{ height: '300px', objectFit: 'contain' }}
-              />
-              <Card.Body>
-                <Card.Title>{product.title}</Card.Title>
-                <Card.Text>${product.price}</Card.Text>
-                <Link to={`/edit-product/${product.id}`}>
-                  <Button variant="outline-primary" size="sm" className="m-1">
-                    Edit
-                  </Button>
-                </Link>
-                <Link to={`/products/${product.id}`}>
-                  <Button variant="outline-success" size="sm" className="m-1">
-                    View
-                  </Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  );
+    return (
+	<Container className="mt-4">
+	    <h2 className="text-center mb-4">Product Listing</h2>
+	    {loading ? (
+		<div className="text-center">
+		    <Spinner animation="border" />
+		</div>
+	    ) : (
+		<Row>
+		    {products.map((product) => (
+			<Col key={product.id} md={4} className="mb-4">
+			    <Card>
+				<Card.Img variant="top" src={product.image} style={{ height: '300px', objectFit: 'contain' }} />
+				<Card.Body>
+				    <Card.Title>{product.title}</Card.Title>
+				    <Card.Text>${product.price}</Card.Text>
+				    <Link to={`/products/${product.id}`}>
+					<Button variant="outline-primary" size="md" className="m-3">View Details</Button>
+				    </Link>
+				    <Button variant="outline-success" size="md" className="m-3">Add to Cart</Button>
+				</Card.Body>
+			    </Card>
+			</Col>
+		    ))}
+		</Row>
+	    )}
+	</Container>
+    );
 }
 
 export default ProductList;

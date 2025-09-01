@@ -73,7 +73,7 @@ function ProductDetail() {
 		    <h4 className="text-muted">${product.price}</h4>
 		    <p><strong>Category:</strong> {product.category}</p>
 		    <p>{product.description}</p>
-		    <Link to="/"><Button variant="outline-primary" className="m-3"> Back Home </Button></Link>
+		    <Link to="/products"><Button variant="outline-primary" className="m-3"> Back to Products </Button></Link>
 		    <Button variant="outline-success" className="m-3"> Add to Cart </Button>
 		    <Link to={`/products/${product.id}/edit`}><Button variant="outline-warning" className="m-3"> Edit </Button></Link>
 		    <Button variant="outline-danger" className="m-3" onClick={handleDelete}>
