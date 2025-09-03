@@ -24,4 +24,4 @@ The e-commerce project requires a streamlined Continuous Integration and Continu
    - Ensure that the deployment only occurs after the CI tests have passed successfully.
 
 * Link
-   - https://newlywingedstore.netlify.app/
+   - https://fake-store-app-sand.vercel.app/

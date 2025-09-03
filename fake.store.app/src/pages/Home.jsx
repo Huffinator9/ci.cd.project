@@ -12,7 +12,7 @@ function Home() {
 		<Col md="8">
 		    <h1> Welcome to the Newly Winged Store Page </h1>
 		    <p className="lead">
-			Browse our wide line of available products.
+			Browse our wide array of available products.
 		    </p>
 		    <Button variant="outline-primary" size="lg" onClick={() => navigate('/products')}>
 			View Products
