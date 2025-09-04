@@ -14,7 +14,7 @@ function Home() {
 		    <p className="lead">
 			Browse our wide array of available products.
 		    </p>
-		    <Button variant="outline-primary" size="lg" onClick={() => navigate('/products')}>
+		    <Button variant="primary" size="lg" onClick={() => navigate('/products')}>
 			View Products
 		    </Button>
 		</Col>
